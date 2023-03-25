@@ -1,0 +1,68 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.wrapper .container {
+  max-width: 1000px;
+  padding: 80px 0px;
+}
+
+.area {
+  display: flex;
+  justify-content: center;
+}
+
+#left-bank,
+#right-bank {
+  width: 100px;
+  height: 500px;
+  background-color: green;
+  display: flex;
+  flex-direction: column;
+}
+
+#center-river{
+  width: 100px;
+  height: 500px;
+  background-color: rgb(34, 1, 156);
+  display: flex;
+}
+
+#left-river{
+  width: 100px;
+  height: 500px;
+  background-color: blue;
+  display: flex;
+}
+
+#right-river{
+  width: 100px;
+  height: 500px;
+  background-color: blue;
+  display: flex;
+}
+
+#boat-area {
+  width: 100px;
+  margin: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#boat {
+  width: 100px;
+}
+
+.sheep,
+.wolf {
+  height: 50px;
+  width: 50px;
+  margin: auto;
+  padding: 10px;
+}
+
+.sheep:hover,
+.wolf:hover,
+.boat:hover {
+  transform: scale(1.3);
+}
