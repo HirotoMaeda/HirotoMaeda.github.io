@@ -14,6 +14,12 @@ const sheep3 = document.getElementById("sheep3");
 const wolf1 = document.getElementById("wolf1");
 const wolf2 = document.getElementById("wolf2");
 const wolf3 = document.getElementById("wolf3");
+const moveCountElement = document.getElementById("move-count");
+
+/**
+ * 変数の宣言
+ */
+let moveCount = 0;
 
 /**
  * boatを移動させる際、乗客の状態を変更する関数
@@ -34,7 +40,7 @@ const sheepWolfState = (boatObject, state) => {
 }
 
 /**
- * boatを移動させる関数
+ * boatを移動させる関数　移動回数もカウント
  */
 const moveBoat = () => {
   if (boatArea.classList.contains("left")) {
@@ -48,6 +54,8 @@ const moveBoat = () => {
     boatArea.classList.replace("right", "left");
     sheepWolfState(boatArea, "left");
   }
+  moveCount++;
+  moveCountElement.innerText = moveCount;
 }
 
 /**
@@ -73,17 +81,38 @@ const addPassenger = (passenger) => {
 }
 
 /**
+ * 岸上の羊と狼の順番をソートする関数
+ * @param {object} liverSide - ソートする岸のHTML要素
+ */
+const sortPassengers = liverSide => {
+  let childElements = liverSide.children;
+  const idList = [];
+  for (let i = 0; i < childElements.length; i++) {
+    idList.push(childElements[i].id);
+  }
+  idList.sort();
+  for (let i = 0; i < idList.length; i++) {
+    let childElement = document.getElementById(idList[i]);
+    liverSide.appendChild(childElement);
+  }
+}
+
+/**
  * boatから羊か狼を降ろす関数
  * @param {object} passenger - 乗客のHTML要素
  */
 const removePassenger = (passenger) => {
+
   if (boatArea.classList.contains("left")) {
     boatArea.removeChild(passenger);
     leftBank.appendChild(passenger);
+    sortPassengers(leftBank);
   } else if (boatArea.classList.contains("right")) {
     boatArea.removeChild(passenger);
     rightBank.appendChild(passenger);
+    sortPassengers(rightBank);
   }
+
 }
 
 /**
@@ -92,7 +121,7 @@ const removePassenger = (passenger) => {
 const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
- * ゲームが終わっているかチェックする関数
+ * ゲーム終了チェック関数
  */
 const checkGame = async () => {
   await wait(100); // すぐにチェックすると移動が完了しないためwait
@@ -108,7 +137,11 @@ const checkGame = async () => {
     alert("右側の羊が狼に食べられてしまいました。");
     location.reload();
   } else if (rightSheep === 3 && rightWolfs === 3) {
-    alert("クリア！ おめでとうございます！");
+    if (moveCount === 11) {
+      alert(`クリア！ おめでとうございます\n\nあなたの移動回数は${moveCount}回でした！\nパーフェクトクリアです！`);
+    } else {
+      alert(`クリア！ おめでとうございます\n\nあなたの移動回数は${moveCount}回でした！\n次は最小移動回数を目指しましょう！`);
+    }
     location.reload();
   }
 }
@@ -141,7 +174,6 @@ const boatClickAction = () => {
 /**
  * HTML要素クリック時の動作関数（ボート）
  */
-boat.addEventListener("click", () => { boatClickAction() });
 boatButton.addEventListener("click", () => { boatClickAction() });
 
 /**
