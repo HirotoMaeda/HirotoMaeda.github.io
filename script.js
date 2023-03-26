@@ -16,9 +16,8 @@ const wolf3 = document.getElementById("wolf3");
 
 /**
  * boatを移動させる際、乗客の状態を変更する関数
- * @param {object} object - 比較する値
- * @param {any} ??? - 比較するもう 1 つの値
- * @returns {boolean} 与えられた 2 つの値が等しいかどうか
+ * @param {object} boatObject - 比較する値
+ * @param {string} state - 行く方向（left or right)
  */
 const sheepWolfState = (boatObject, state) => {
   const objectChildren = boatObject.children;
@@ -33,8 +32,9 @@ const sheepWolfState = (boatObject, state) => {
   }
 }
 
-// boatを移動させる関数
-
+/**
+ * boatを移動させる関数
+ */
 const moveBoat = () => {
   if (boatArea.classList.contains("left")) {
     leftRiver.removeChild(boatArea);
@@ -49,8 +49,10 @@ const moveBoat = () => {
   }
 }
 
-// boatに羊か狼を乗せる関数
-
+/**
+ * boatに羊か狼を乗せる関数
+ * @param {object} passenger - 乗客のHTML要素
+ */
 const addPassenger = (passenger) => {
   if (boatArea.children.length > 2) {
     alert("ボートには２匹までしか載せれません");
@@ -69,9 +71,11 @@ const addPassenger = (passenger) => {
   }
 }
 
-// boatから羊か狼を降ろす関数
-// 降ろした際クリアチェックも行う
-
+/**
+ * boatから羊か狼を降ろす関数
+ * 降ろした際クリアチェックも行う
+ * @param {object} passenger - 乗客のHTML要素
+ */
 const removePassenger = (passenger) => {
   if (boatArea.classList.contains("left")) {
     boatArea.removeChild(passenger);
@@ -82,10 +86,16 @@ const removePassenger = (passenger) => {
   }
 }
 
-// ゲームが終わっているかチェックする関数
+/**
+ * 同期wait関数
+ */
+const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-const checkGame = () => {
-  console.log("checkGame");
+/**
+ * ゲームが終わっているかチェックする関数
+ */
+const checkGame = async () => {
+  await wait(100);
   const leftSheep = document.querySelectorAll(".left.sheep").length;
   const leftWolfs = document.querySelectorAll(".left.wolf").length;
   const rightSheep = document.querySelectorAll(".right.sheep").length;
@@ -103,9 +113,10 @@ const checkGame = () => {
   }
 }
 
-
-// クリック時の動作用ボート乗降関数（羊・狼共通)
-
+/**
+ * 乗客クリック時の動作関数
+ * @param {object} passenger - 乗客のHTML要素
+ */
 const passengerClickAction = (passenger) => {
   if (!(boatArea.contains(passenger))) {
     addPassenger(passenger);
@@ -115,6 +126,9 @@ const passengerClickAction = (passenger) => {
   }
 }
 
+/**
+ * ボートクリック時の動作関数
+ */
 const boatClickAction = () => {
   if (boatArea.children.length >= 2) {
     moveBoat();
@@ -124,9 +138,9 @@ const boatClickAction = () => {
   };
 }
 
-
-//　クリック動作
-
+/**
+ * HTML要素クリック時の動作関数
+ */
 boat.addEventListener("click", () => { boatClickAction() });
 sheep1.addEventListener("click", () => { passengerClickAction(sheep1) });
 sheep2.addEventListener("click", () => { passengerClickAction(sheep2) });
