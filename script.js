@@ -7,6 +7,7 @@ const leftRiver = document.getElementById("left-river");
 const rightRiver = document.getElementById("right-river");
 const boatArea = document.getElementById("boat-area");
 const boat = document.getElementById("boat");
+const boatButton = document.getElementById("boat-button");
 const sheep1 = document.getElementById("sheep1");
 const sheep2 = document.getElementById("sheep2");
 const sheep3 = document.getElementById("sheep3");
@@ -73,7 +74,6 @@ const addPassenger = (passenger) => {
 
 /**
  * boatから羊か狼を降ろす関数
- * 降ろした際クリアチェックも行う
  * @param {object} passenger - 乗客のHTML要素
  */
 const removePassenger = (passenger) => {
@@ -95,7 +95,7 @@ const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
  * ゲームが終わっているかチェックする関数
  */
 const checkGame = async () => {
-  await wait(100);
+  await wait(100); // すぐにチェックすると移動が完了しないためwait
   const leftSheep = document.querySelectorAll(".left.sheep").length;
   const leftWolfs = document.querySelectorAll(".left.wolf").length;
   const rightSheep = document.querySelectorAll(".right.sheep").length;
@@ -139,9 +139,14 @@ const boatClickAction = () => {
 }
 
 /**
- * HTML要素クリック時の動作関数
+ * HTML要素クリック時の動作関数（ボート）
  */
 boat.addEventListener("click", () => { boatClickAction() });
+boatButton.addEventListener("click", () => { boatClickAction() });
+
+/**
+ * HTML要素クリック時の動作関数（羊と狼）
+ */
 sheep1.addEventListener("click", () => { passengerClickAction(sheep1) });
 sheep2.addEventListener("click", () => { passengerClickAction(sheep2) });
 sheep3.addEventListener("click", () => { passengerClickAction(sheep3) });
