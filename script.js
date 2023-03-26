@@ -1,4 +1,5 @@
 /**
+ * 定数の宣言
  */
 const leftBank = document.getElementById("left-bank");
 const rightBank = document.getElementById("right-bank");
@@ -13,11 +14,14 @@ const wolf1 = document.getElementById("wolf1");
 const wolf2 = document.getElementById("wolf2");
 const wolf3 = document.getElementById("wolf3");
 
-
-// ボート羊狼の状態書き換え
-
-const sheepWolfState = (object, state) => {
-  const objectChildren = object.children;
+/**
+ * boatを移動させる際、乗客の状態を変更する関数
+ * @param {object} object - 比較する値
+ * @param {any} ??? - 比較するもう 1 つの値
+ * @returns {boolean} 与えられた 2 つの値が等しいかどうか
+ */
+const sheepWolfState = (boatObject, state) => {
+  const objectChildren = boatObject.children;
   for (const key in objectChildren) {
     console.log(key, "obj:", objectChildren[key].classList);
     if (objectChildren[key].classList === undefined) { continue };
@@ -48,6 +52,10 @@ const moveBoat = () => {
 // boatに羊か狼を乗せる関数
 
 const addPassenger = (passenger) => {
+  if (boatArea.children.length > 2) {
+    alert("ボートには２匹までしか載せれません");
+    return;
+  }
   if (boatArea.children.length <= 2 && boatArea.classList.contains("left")) {
     if (passenger.classList.contains("left")) {
       leftBank.removeChild(passenger);
@@ -84,20 +92,21 @@ const checkGame = () => {
   const rightWolfs = document.querySelectorAll(".right.wolf").length;
 
   if (leftSheep > 0 && leftWolfs > leftSheep) {
-    alert("羊が狼に食べられてしまいました。");
+    alert("左側の羊が狼に食べられてしまいました。");
     location.reload();
   } else if (rightSheep > 0 && rightWolfs > rightSheep) {
-    alert("羊が狼に食べられてしまいました。");
+    alert("右側の羊が狼に食べられてしまいました。");
     location.reload();
   } else if (rightSheep === 3 && rightWolfs === 3) {
-    console.log("クリア！");
+    alert("クリア！ おめでとうございます！");
+    location.reload();
   }
 }
 
 
 // クリック時の動作用ボート乗降関数（羊・狼共通)
 
-const boardingDecision = (passenger) => {
+const passengerClickAction = (passenger) => {
   if (!(boatArea.contains(passenger))) {
     addPassenger(passenger);
   }
@@ -106,20 +115,22 @@ const boardingDecision = (passenger) => {
   }
 }
 
-//　クリック動作
-
-boat.addEventListener("click", () => {
+const boatClickAction = () => {
   if (boatArea.children.length >= 2) {
     moveBoat();
     checkGame();
   } else {
     alert("ボートに誰も乗っていません");
   };
-});
+}
 
-sheep1.addEventListener("click", () => { boardingDecision(sheep1) });
-sheep2.addEventListener("click", () => { boardingDecision(sheep2) });
-sheep3.addEventListener("click", () => { boardingDecision(sheep3) });
-wolf1.addEventListener("click", () => { boardingDecision(wolf1) });
-wolf2.addEventListener("click", () => { boardingDecision(wolf2) });
-wolf3.addEventListener("click", () => { boardingDecision(wolf3) });
+
+//　クリック動作
+
+boat.addEventListener("click", () => { boatClickAction() });
+sheep1.addEventListener("click", () => { passengerClickAction(sheep1) });
+sheep2.addEventListener("click", () => { passengerClickAction(sheep2) });
+sheep3.addEventListener("click", () => { passengerClickAction(sheep3) });
+wolf1.addEventListener("click", () => { passengerClickAction(wolf1) });
+wolf2.addEventListener("click", () => { passengerClickAction(wolf2) });
+wolf3.addEventListener("click", () => { passengerClickAction(wolf3) });
