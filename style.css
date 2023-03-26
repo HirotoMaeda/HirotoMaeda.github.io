@@ -1,10 +1,27 @@
 body {
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+ul {
+  list-style-type: circle;
+  float:left;
+  font-size: small;
+  display: flex;
+  flex-direction: column;
+}
+
+li {
+  display: flex;
+  align-items: center;
 }
 
 .wrapper .container {
   max-width: 1000px;
-  padding: 80px 0px;
+  padding: 10px 0px;
 }
 
 .area {
@@ -21,21 +38,21 @@ body {
   flex-direction: column;
 }
 
-#center-river{
+#center-river {
   width: 100px;
   height: 500px;
   background-color: rgb(34, 1, 156);
   display: flex;
 }
 
-#left-river{
+#left-river {
   width: 100px;
   height: 500px;
   background-color: blue;
   display: flex;
 }
 
-#right-river{
+#right-river {
   width: 100px;
   height: 500px;
   background-color: blue;
@@ -65,4 +82,10 @@ body {
 .wolf:hover,
 .boat:hover {
   transform: scale(1.3);
+}
+
+.imgExa {
+  height:30px;
+  width:30px;
+  padding: 5px;
 }
